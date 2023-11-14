@@ -3,50 +3,15 @@
 #include<windows.h>
 #include <conio.h>
 
-#define N 26
+#include "librerias/estructuras.h"
+#include "librerias/grafos.h"
 
 
-typedef int tVertice;
-
-typedef struct {
-	
-	tVertice origen;
-	tVertice destino;
-		
-} tArco;
-
-typedef bool conjuntoVertices[N];
-
-typedef bool conjuntoArcos[N][N];
-
-typedef struct {
-	
-	conjuntoVertices vertices;
-	conjuntoArcos arcos;
-	
-} tGrafoNoPonderado;
-
-typedef struct {
-	
-    int x;
-    int y;
-    bool primerEjecucion;
-    
-} tCordenadas;
-
-//prototipo 
-
+//prototipos
 void crearSolucion();
 void crearPasillo();
 
-void inicializarGrafo( tGrafoNoPonderado * );
-void agregarVertice( tGrafoNoPonderado * , tVertice);
-void prenderVertice(); 
-void agregarArco( tGrafoNoPonderado *, tArco ); 
-bool existeVertice( tGrafoNoPonderado, tVertice );
-
 void imprimirLab( tGrafoNoPonderado );
-
 
 //variables
 tVertice vertice;
@@ -57,15 +22,14 @@ tCordenadas inicio,fin, actual;
 //funcion principal
 int main(){
 	
-	
 	inicio.x = 4;
 	inicio.y = 1;
 	fin.x = 7;
 	fin.y = 25;
 	inicio.primerEjecucion = true;
 	
-	inicializarGrafo( &grafo );
-	prenderVertice();
+	inicializarGrafo(&grafo);
+	prenderVertice(&grafo);
 	crearPasillo();	
 
 	char terminar = 'n';
@@ -81,10 +45,6 @@ int main(){
 		imprimirLab(grafo);
 		
 		char direccion;
-
-//		fflush(stdin);
-		
-//		scanf("%c",&direccion);
 		
 		direccion = _getch();
 		
@@ -110,43 +70,10 @@ int main(){
 	}
 	while(terminar != 's'); 
 	
-
-
 	return 0;
 }
 
 //implementacion
-
-void inicializarGrafo( tGrafoNoPonderado * pGrafo ) {
-	int x, y;
-	
-	for( x=0; x<=N; x++ ) {
-		pGrafo->vertices[x]= 0;		
-					
-		for( y=0; y<=N; y++ ) {
-			pGrafo->arcos[x][y] = 0;
-		}
-	}
-}
-
-
-void agregarVertice( tGrafoNoPonderado * pGrafo, tVertice pVertice ) {
-	// ( *pGrafo ).vertices[pVertice] = 1;
-	pGrafo->vertices[pVertice] = 1;//
-	
-} 
-
-
-void prenderVertice(){
-	int x;
-	for (x=0; x<N; x++){
-		
-		agregarVertice( &grafo, x );
-		
-	}
-}
-
-
 void imprimirLab(tGrafoNoPonderado pGrafo) {
     int x, y;
     bool existeArista = false;
@@ -295,112 +222,3 @@ void crearPasillo( ){
 	
 }
 
-
-void crearSolucion(tGrafoNoPonderado pGrafo){
-
-
-	
-	
-}
-
-
-void agregarArco(tGrafoNoPonderado * pGrafo, tArco pArco){
-
-
-	if(pGrafo->vertices[pArco.origen]==1 && pGrafo->vertices[pArco.destino]==1){
-	
-		( * pGrafo ).arcos[pArco.origen][pArco.destino]=1;		
-		
-
-	}else{
-			
-		printf( "No se pudo agregar - Alguno de los vertices no se encuentra activo\n" );
-	
-	}
-		
-}
- 	
- 	
-bool existeVertice( tGrafoNoPonderado pGrafo, tVertice pVertice ) {
-	return pGrafo.vertices[pVertice] == 1;
-}
-
-
-/*void crearLab(tGrafoNoPonderado pGrafo){
-	
-	bool existeArista = false;
-	int i,j,x,y;
-	
-	// Imprimir la parte superior del marco
-	for ( i = 0; i < N + 2; i++) {
-        
-		printf("  %c",126);
-        
-    }
-    
-    printf("\n");
-    
-    //paredes del laberinto
-    crearParedes();
-	
-    // Imprimir el contenido de la matriz con los bordes
-    for ( i = 0; i < N; i++) {
-    	// Borde izquierdo
-		if(i==4){
-    		printf("E"); 
-			
-    	}else{
-    		
-    		printf("  |");
-    	}
-    	
-        //contenido
-        for(x=1; x<=N; x++){
-			for(y=1; y<=N; y++){
-			
-				existeArista  ( pGrafo.arcos[x][y]==1 ) && existeVertice(pGrafo , x ) && existeVertice (pGrafo, y); 
-			
-				if(existeArista){
-				 
-					printf(" ");
-			
-				}else{
-				
-					printf("%c",219);
-				
-			}
-		}
-		printf("\n");
-	}	
-        
-        
-        // Borde derecho y nueva línea
-        if(i==7 ){
-        	
-    		printf("  S\n"); 
-
-    	}else{
-    		
-    		printf("|\n");
-    	} 
-	
-	}
-
-    // Imprimir la parte inferior del marco
-    
-	for ( i = 0; i < N + 2; i++) {
-        
-		printf("  %c",126);
-        
-    }
-    
-    printf("\n");
-    
-
-}
-    
-*/
-
-
-
-    
