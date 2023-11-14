@@ -8,7 +8,7 @@ void prenderVertice(tGrafoNoPonderado *);
 void inicializarGrafo( tGrafoNoPonderado * pGrafo ) {
 	int x, y;
 	
-	for( x=0; x<=N; x++ ) {
+	for( x=0; x<= N; x++ ) {
 		pGrafo->vertices[x]= 0;		
 					
 		for( y=0; y<=N; y++ ) {

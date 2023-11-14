@@ -1,5 +1,6 @@
 #define N 26
 
+
 typedef int tVertice;
 
 typedef struct {
@@ -9,9 +10,9 @@ typedef struct {
 		
 } tArco;
 
-typedef bool conjuntoVertices[N];
+typedef int conjuntoVertices[N];
 
-typedef bool conjuntoArcos[N][N];
+typedef int conjuntoArcos[N][N];
 
 typedef struct {
 	
