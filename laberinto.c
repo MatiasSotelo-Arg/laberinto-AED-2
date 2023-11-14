@@ -10,6 +10,7 @@
 //prototipos
 void crearSolucion();
 void crearPasillo();
+bool evaluarMovimiento(tGrafoNoPonderado *,tCordenadas);
 
 
 void imprimirLab( tGrafoNoPonderado );
@@ -49,22 +50,50 @@ int main(){
 		
 		direccion = _getch();
 		
+		bool movimiento; 
+		
 		switch( direccion ){
 			
 			case 'w':
+				
 				actual.x--;
+				
+				movimiento = evaluarMovimiento(&grafo, actual);
+				
+				if(!movimiento) {
+					actual.x++;
+				}
+				
 				break;
 			
 			case 'a':
 				actual.y--;
+				
+				movimiento = evaluarMovimiento(&grafo, actual);
+				
+				if(!movimiento) {
+					actual.y++;
+				}
 				break;
 				
 			case 'd':
 				actual.y++;
+				
+				movimiento = evaluarMovimiento(&grafo, actual);
+				
+				if(!movimiento) {
+					actual.y--;
+				}
 				break;
 			
 			case 's':
 				actual.x++;
+				
+				movimiento = evaluarMovimiento(&grafo, actual);
+				
+				if(!movimiento) {
+					actual.x--;
+				}
 				break; 
 				
 		}
@@ -107,6 +136,14 @@ void imprimirLab(tGrafoNoPonderado pGrafo) {
     }
 }
 
+bool evaluarMovimiento(tGrafoNoPonderado * pGrafo, tCordenadas pCordenada) {
+	if(pGrafo->arcos[pCordenada.x][pCordenada.y] == 1) {
+		return true;	
+	} else {
+		return false;
+	}
+}
+
 void crearPasilloFila(int colInicio, int colFin, int origen) {
     int j;
     tArco arco;
@@ -119,133 +156,38 @@ void crearPasilloFila(int colInicio, int colFin, int origen) {
 }
 
 void crearPasillo() {
+	crearPasilloFila(6, 8, 4);
+	crearPasilloFila(6, 8, 5);
+	crearPasilloFila(6, 8, 6);
+	crearPasilloFila(6, 8, 7);
+	crearPasilloFila(3, 5, 7);
+	crearPasilloFila(3, 5, 8);
+	crearPasilloFila(3, 5, 9);
+	crearPasilloFila(3, 5, 10);
+	crearPasilloFila(3, 5, 11);
+	crearPasilloFila(6,15 , 11);
+	crearPasilloFila(13, 15, 12);
+	crearPasilloFila(13, 15, 13);
+	crearPasilloFila(16, 23, 13);
 	crearPasilloFila(3, 19, 1);
 	crearPasilloFila(3, 5, 2);
 	crearPasilloFila(17, 19, 2);
 	crearPasilloFila(3, 5, 3);
 	crearPasilloFila(17, 19, 3);
     crearPasilloFila(0, 5, 4);   
-    crearPasilloFila(10, 19, 4); 
-    crearPasilloFila(10, 12, 5);
-	crearPasilloFila(10, 12, 6); 
+    crearPasilloFila(13, 19, 4); 
+    crearPasilloFila(13, 15, 5);
 	crearPasilloFila(13, 25, 6);
+	crearPasilloFila(21, 23, 12);
+	crearPasilloFila(21, 23, 11);
+	crearPasilloFila(21, 23, 10);
+	crearPasilloFila(21, 23, 9);
+	crearPasilloFila(6, 8, 7);
+	
+	crearPasilloFila(18,20,9);
+	crearPasilloFila(18,20,8);
+	crearPasilloFila(18,20,7);
 }
 
 
-
-//void crearPasillo( ){
-//	
-//	int i,j;
-//	
-//	for(j=3; j<19; j++){
-//		
-//		arco.origen = 1;
-//		arco.destino = j;
-//		agregarArco( &grafo, arco);
-//		
-//	}
-//		
-//	for(j=0; j<3; j++){
-//	
-//		arco.origen = 4;
-//		arco.destino = j;
-//		agregarArco( &grafo, arco);
-//		
-//	}
-//	
-//	for(i= 2; i< 5; i++ ){
-//		for(j=3; j<6; j++){
-//			
-//			arco.origen = i;
-//			arco.destino =j;
-//			agregarArco( &grafo, arco);
-//		}
-//	}
-//	
-//	for(i= 1; i< 8; i++ ){
-//		for(j=18; j<21; j++){
-//			
-//			arco.origen = i;
-//			arco.destino = j;
-//			agregarArco( &grafo, arco);
-//		}
-//	}
-//	
-//	
-//	for(i=4 ; i<8 ; i++ ){
-//		for(j=6; j<9; j++){
-//			
-//			arco.origen= i;
-//			arco.destino=j;
-//			agregarArco(&grafo, arco);
-//			
-//		}
-//	}
-//	
-//	for(j=21; j<26; j++){
-//	
-//		arco.origen = 7;
-//		arco.destino = j;
-//		agregarArco( &grafo, arco);
-//	}
-//	
-//	for(j=3; j<9; j++){
-//		
-//		arco.origen = 13;
-//		arco.destino = j;
-//		agregarArco( &grafo, arco);
-//	}
-//	
-//	for(j=12; j<24; j++){
-//		
-//		arco.origen = 13;
-//		arco.destino = j;
-//		agregarArco( &grafo, arco);
-//	}
-//	
-//	for(i= 11; i< 14; i++ ){
-//		for(j=21; j<24; j++){
-//			
-//			arco.origen = i;
-//			arco.destino =j;
-//			agregarArco( &grafo, arco);
-//		}
-//	}
-//	
-//	for(i= 8; i< 12; i++ ){
-//		for(j=18; j<21; j++){
-//			
-//			arco.origen = i;
-//			arco.destino =j;
-//			agregarArco( &grafo, arco);
-//		}
-//	}
-//	
-//	for(i=7; i<14; i++){
-//		for(j=3; j<6; j++){
-//		
-//			arco.origen = i;
-//			arco.destino =j;
-//			agregarArco( &grafo, arco);
-//		}
-//	}
-//	
-//	for(j=6; j<15; j++){
-//		
-//		arco.origen = 10;
-//		arco.destino = j;
-//		agregarArco( &grafo, arco);
-//	}
-//	
-//	for(i=10; i<14; i++){
-//		for(j=12; j<15; j++){
-//		
-//			arco.origen = i;
-//			arco.destino =j;
-//			agregarArco( &grafo, arco);
-//		
-//		}
-//	}
-//	
-//}
 
