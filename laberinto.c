@@ -2,6 +2,7 @@
 #include<stdbool.h>
 #include<windows.h>
 #include <conio.h>
+#include <time.h>
 
 #include "librerias/estructuras.h"
 #include "librerias/grafos.h"
@@ -26,32 +27,52 @@ int main(){
 	
 	inicio.x = 4;
 	inicio.y = 1;
-	fin.x = 7;
+	fin.x = 6;
 	fin.y = 25;
+	
 	inicio.primerEjecucion = true;
+	
+	int contMovimientos = 0;
 	
 	inicializarGrafo(&grafo);
 	prenderVertice(&grafo);
 	crearPasillo();
 
 	char terminar = 'n';
+	bool salir = false;
 	
 	actual.x = inicio.x;
 	actual.y = inicio.y;
 	
+	clock_t inicio, fin;
+    double tiempo;
+    
+    inicio = clock();
+    
+    actual.ganaste = false;
+	
 	do {
-		
+			
 		system("cls");
 		
-		printf("Mover hacia W A D S\n");
+		if(actual.ganaste == true) {
+			printf("ganaste");
+		}  else {
+				printf("Mover hacia W A D S\n");
+		printf("x para salir\n");
+		
 		imprimirLab(grafo);
+		printf("Movimientos: %d",contMovimientos);
+		}
+		
+	
 		
 		char direccion;
-		
+		fflush(stdin);
 		direccion = _getch();
-		
+			
 		bool movimiento; 
-		
+			
 		switch( direccion ){
 			
 			case 'w':
@@ -60,8 +81,11 @@ int main(){
 				
 				movimiento = evaluarMovimiento(&grafo, actual);
 				
+				
 				if(!movimiento) {
 					actual.x++;
+				} else {
+					contMovimientos++;
 				}
 				
 				break;
@@ -73,6 +97,8 @@ int main(){
 				
 				if(!movimiento) {
 					actual.y++;
+				} else {
+					contMovimientos++;
 				}
 				break;
 				
@@ -83,6 +109,8 @@ int main(){
 				
 				if(!movimiento) {
 					actual.y--;
+				} else {
+					contMovimientos++;
 				}
 				break;
 			
@@ -93,9 +121,18 @@ int main(){
 				
 				if(!movimiento) {
 					actual.x--;
-				}
+				} else {
+					contMovimientos++;
+				} 
 				break; 
-				
+			
+			case 'x': 
+				system("cls");
+				printf("Se salio\n");
+				terminar = 's';
+				tiempo = ((double)(fin - inicio)) / CLOCKS_PER_SEC;
+				printf("Tiempo: %f",tiempo);
+				break;
 		}
 	}
 	while(terminar != 's'); 
@@ -122,12 +159,20 @@ void imprimirLab(tGrafoNoPonderado pGrafo) {
                     }
                 } else {
                     if (x == actual.x && y == actual.y) {
+                    	
                         printf("X");
+                        actual.x = x;
+                        actual.y = y;
+                        
+                        //evaluar si gana
+                        if(actual.x == fin.x && actual.y == fin.y) {
+                        	actual.ganaste = true;
+                        }
                     } else {
                         printf(" ");
                     }
                 }
-				
+
             } else {
                 printf("%C", 178);
             }

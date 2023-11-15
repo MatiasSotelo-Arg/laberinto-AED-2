@@ -27,5 +27,6 @@ typedef struct {
     int y;
     
     bool primerEjecucion;
-    
+    bool ganaste;
+
 } tCordenadas;
