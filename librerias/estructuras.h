@@ -1,13 +1,13 @@
 #define N 26
 
-
 typedef int tVertice;
 
-typedef struct {
-	
+typedef char tString[10];
+typedef char tChar[2];
+
+typedef struct {	
 	tVertice origen;
 	tVertice destino;
-		
 } tArco;
 
 typedef int conjuntoVertices[N];
@@ -30,3 +30,12 @@ typedef struct {
     bool ganaste;
 
 } tCordenadas;
+
+typedef struct {
+	tString nombre; 
+	int movimientos;
+	float tiempo;
+}tUsuario;
+
+FILE * archivo; 
+tUsuario usuario; 

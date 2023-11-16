@@ -4,15 +4,16 @@
 #include <conio.h>
 #include <time.h>
 
+#include "librerias/titulo.h"
 #include "librerias/estructuras.h"
 #include "librerias/grafos.h"
-
+#include "librerias/archivos.h"
 
 //prototipos
+void mostrarRecord();
 void crearSolucion();
 void crearPasillo();
 bool evaluarMovimiento(tGrafoNoPonderado *,tCordenadas);
-
 
 void imprimirLab( tGrafoNoPonderado );
 
@@ -22,13 +23,18 @@ tArco arco;
 tGrafoNoPonderado grafo;
 tCordenadas inicio,fin, actual;
 
+
+
 //funcion principal
 int main(){
 	
 	inicio.x = 4;
 	inicio.y = 1;
-	fin.x = 6;
-	fin.y = 25;
+	fin.x = 4; //6
+	fin.y = 3; //25
+	
+	titulo();
+//	menu();
 	
 	inicio.primerEjecucion = true;
 	
@@ -50,23 +56,65 @@ int main(){
     inicio = clock();
     
     actual.ganaste = false;
-	
+
 	do {
 			
 		system("cls");
-		
-		if(actual.ganaste == true) {
-			printf("ganaste");
-		}  else {
-				printf("Mover hacia W A D S\n");
+			
+		printf("Mover hacia W A D S\n");
 		printf("x para salir\n");
 		
 		imprimirLab(grafo);
+		
 		printf("Movimientos: %d",contMovimientos);
-		}
 		
-	
-		
+		if(actual.ganaste == true) {
+			terminar = 's';
+			system("cls");
+			printf("ganaste");
+			
+			fin = clock();
+			tiempo = ((double)(fin - inicio)) / CLOCKS_PER_SEC;
+			printf("Tiempo: %f\nMovimientos: %d\n",tiempo,contMovimientos);
+			
+			char opcion; 
+			
+			printf("Quieres guardar tu record? s - n:");
+			fflush(stdin);
+			scanf("%c",&opcion);
+			
+			if(opcion == 's') {
+				
+				tString nombre;
+				printf("nombre: ");
+				fflush(stdin);
+				scanf("%s",&nombre);
+				strcpy(usuario.nombre, nombre);
+				
+				usuario.movimientos = contMovimientos;
+				usuario.tiempo = tiempo;
+				
+				archivo = abrirArchivo("archivos/usuarios.dat","ab");
+				
+				if(archivo == NULL) {
+					printf("error");
+				}
+				
+				fwrite(&usuario, sizeof( tUsuario), 1, archivo);
+				
+				cerrarArchivo(archivo);
+				
+				system("cls");
+				printf("Menu");
+			} else {
+				mostrarRecord();
+			}
+			
+			
+			
+			
+		} 
+				
 		char direccion;
 		fflush(stdin);
 		direccion = _getch();
@@ -112,6 +160,7 @@ int main(){
 				} else {
 					contMovimientos++;
 				}
+				
 				break;
 			
 			case 's':
@@ -130,6 +179,8 @@ int main(){
 				system("cls");
 				printf("Se salio\n");
 				terminar = 's';
+				
+				fin = clock();
 				tiempo = ((double)(fin - inicio)) / CLOCKS_PER_SEC;
 				printf("Tiempo: %f",tiempo);
 				break;
@@ -137,6 +188,7 @@ int main(){
 	}
 	while(terminar != 's'); 
 
+	
 	return 0;
 }
 
@@ -232,6 +284,22 @@ void crearPasillo() {
 	crearPasilloFila(18,20,9);
 	crearPasilloFila(18,20,8);
 	crearPasilloFila(18,20,7);
+}
+
+void mostrarRecord() {
+
+	archivo = abrirArchivo("archivos/usuarios.dat","rb");
+
+	tUsuario mostrar;
+	printf("Records\n");
+	fread(&mostrar,sizeof(tUsuario),1,archivo);
+	while(!feof(archivo)) {
+		printf("%s %d %.2f\n",mostrar.nombre, mostrar.movimientos, mostrar.tiempo);
+		fread(&mostrar,sizeof(tUsuario),1,archivo);
+	}
+	
+
+	cerrarArchivo(archivo);
 }
 
 
